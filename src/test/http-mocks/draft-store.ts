@@ -193,7 +193,6 @@ const sampleResponseDraftObj = {
   },
   defendantPaymentPlan: {
     remainingAmount: 3685,
-    firstPayment: 100,
     instalmentAmount: 100,
     firstPaymentDate: {
       year: 2019,
@@ -258,7 +257,6 @@ const sampleCCJDraftObj = {
   paidAmount: { option: PaidAmountOption.NO },
   repaymentPlan: {
     remainingAmount: 3685,
-    firstPayment: 100,
     instalmentAmount: 100,
     firstPaymentDate: {
       year: 2019,
