@@ -2,7 +2,7 @@
 
 {% from "table.njk" import tableStart, tableEnd, row %}
 {% from "form.njk" import csrfProtection, submitButton, errorSummary %}
-{% from "../../../views/macro/statementOfTruth.njk" import statementOfTruth %}
+{% from "statementOfTruth.njk" import statementOfTruth %}
 {% from "party/details.njk" import partyDetailsSummaryFragment %}
 
 {% set title = t('Money claim') %}
@@ -23,7 +23,7 @@
           }
         )
     }}
-    {{ row('Contact number (optional):', draftClaim.claimant.mobilePhone.number, paths.claimantMobilePage.uri) }}
+    {{ row(label = 'Contact number (optional)', value = draftClaim.claimant.mobilePhone.number, changeLink = paths.claimantMobilePage.uri, bold = true) }}
     {{ tableEnd() }}
 
     {{ tableStart('theirDetails', 'Their details (defendant)') }}
@@ -37,44 +37,44 @@
            }
         )
     }}
-
-    {{ row('Email:', draftClaim.defendant.email.address, paths.defendantEmailPage.uri) }}
+    {{ row(label = 'Email (optional)', value = draftClaim.defendant.email.address, changeLink = paths.defendantEmailPage.uri, bold = true) }}
     {{ tableEnd() }}
 
     {{ tableStart('claimAmount', 'Claim amount') }}
-    {{ row('Claim amount:', claimAmountTotal.claimAmount | numeral, paths.amountPage.uri )}}
+    {{ row(label = 'Claim amount', value = claimAmountTotal.claimAmount | numeral, changeLink = paths.amountPage.uri, bold = true)}}
 
     {% if (interestClaimed === true) %}
       {% if (draftClaim.interest.rate) %}
-        {{ row('Interest rate:', draftClaim.interest.rate | numeral('0,0.00') + '\% \(' + draftClaim.interest.type + '\)' , paths.interestPage.uri) }}
+        {{ row(label = 'Interest rate', value = draftClaim.interest.rate | numeral('0,0.00') + '\% \(' + draftClaim.interest.type + '\)' , changeLink = paths.interestPage.uri, bold = true) }}
       {% endif %}
       {% if payAtSubmission === false %}
-        {{ row('Date interest is claimed from:', draftClaim.interestDate.date.asString() | date, paths.interestDatePage.uri) }}
+        {{ row(label = 'Date interest is claimed from', value = draftClaim.interestDate.date.asString() | date, changeLink = paths.interestDatePage.uri, bold = true) }}
       {% else %}
-        {{ row('Date interest is claimed from:', t( 'Date you submit the claim' ), paths.interestDatePage.uri) }}
+      {{ row(label = 'Interest rate', value = draftClaim.interest.rate | numeral('0,0.00') + '\% \(' + draftClaim.interest.type + '\)' , changeLink = paths.interestPage.uri, bold = true) }}
+        {{ row(label = 'Date interest is claimed from', value = 'Date you submit the claim', changeLink = paths.interestDatePage.uri, bold = true) }}
       {% endif %}
       {% if (claimAmountTotal.interestAmount) %}
-        {{ row('Interest:', claimAmountTotal.interestAmount | numeral, paths.interestPage.uri) }}
+        {{ row(label = 'Interest', value = claimAmountTotal.interestAmount | numeral, changeLink = paths.interestPage.uri, bold = true) }}
       {% endif %}
     {% else %}
-      {{ row('Interest rate:', t('I don’t want to claim interest'), paths.interestPage.uri )}}
+      {{ row(label = 'Interest rate', value = 'I don’t want to claim interest', changeLink = paths.interestPage.uri, bold = true)}}
     {% endif %}
 
-    {{ row('Claim fee:', claimAmountTotal.feeAmount | numeral) }}
-    {{ row('Total amount you’re claiming:',  claimAmountTotal.totalAmountTillToday | numeral) }}
+    {{ row(label = 'Claim fee', value = claimAmountTotal.feeAmount | numeral, bold = true) }}
+    {{ row(label = 'Total amount you’re claiming', value = claimAmountTotal.totalAmountTillToday | numeral, bold = true) }}
     {{ tableEnd() }}
 
     {{ tableStart('claimDetails', 'Claim details') }}
-    {{ row('Why you’re owed the money:', draftClaim.reason.reason, paths.reasonPage.uri ) }}
+    {{ row(label = 'Why you’re owed the money', value = draftClaim.reason.reason, changeLink = paths.reasonPage.uri, bold = true) }}
 
-    {{ row('Timeline of what happened:', '', paths.timelinePage.uri, false ) }}
+    {{ row(label = 'Timeline of what happened', value = '', changeLink = paths.timelinePage.uri, bottomBorder = false, bold = true) }}
     {% set allTimelineRows = draftClaim.timeline.getPopulatedRowsOnly() %}
     {% set lastItemIndex = allTimelineRows.length - 1 %}
     {% for timelineRow in allTimelineRows %}
       {{ row(timelineRow.date, timelineRow.description, '', loop.index0 === lastItemIndex) }}
     {% endfor %}
 
-    {{ row('Your evidence (optional):', '', paths.evidencePage.uri, false ) }}
+    {{ row(label = 'Your evidence (optional)', value = '', changeLink = paths.evidencePage.uri, bottomBorder = false, bold = true) }}
     {% set allEvidenceRows = draftClaim.evidence.getPopulatedRowsOnly() %}
     {% set lastItemIndex = allEvidenceRows.length - 1 %}
     {% for evidenceRow in allEvidenceRows %}
