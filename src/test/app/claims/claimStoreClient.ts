@@ -46,7 +46,8 @@ describe('ClaimStoreClient', () => {
 
     const retryingRequest = request.defaults({
       retryDelay: requestDelayInMillis,
-      maxAttempts: retryAttempts
+      maxAttempts: retryAttempts,
+      simple: true
     } as RequestPromiseOptions)
 
     const claimStoreClient: ClaimStoreClient = new ClaimStoreClient(retryingRequest)
